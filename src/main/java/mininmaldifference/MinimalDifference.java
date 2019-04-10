@@ -1,3 +1,5 @@
+package mininmaldifference;
+
 import java.util.Arrays;
 
 /**
