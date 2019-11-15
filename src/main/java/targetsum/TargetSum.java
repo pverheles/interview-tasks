@@ -1,5 +1,6 @@
 package targetsum;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,11 +20,17 @@ public class TargetSum {
 
         System.out.println();
 
-        System.out.println(hasTargetSumOptimized(new int[]{2, 3, 5, 0}, 6));
-        System.out.println(hasTargetSumOptimized(new int[]{2, 3, 5, 1}, 6));
-        System.out.println(hasTargetSumOptimized(new int[]{2, -3, 5, 9}, 6));  //4, 9, 1, -3 -> -3, 1, 4, 9;
-        System.out.println(hasTargetSumOptimized(new int[]{0, 0, 6, 1}, 6));
-        // a + b = c ;  b = c - a; a = c - b
+        System.out.println(hasTargetSumOptimizedWithHashMap(new int[]{2, 3, 5, 0}, 6));
+        System.out.println(hasTargetSumOptimizedWithHashMap(new int[]{2, 3, 5, 1}, 6));
+        System.out.println(hasTargetSumOptimizedWithHashMap(new int[]{2, -3, 5, 9}, 6));  //4, 9, 1, -3 -> -3, 1, 4, 9;
+        System.out.println(hasTargetSumOptimizedWithHashMap(new int[]{0, 0, 6, 1}, 6));
+
+        System.out.println();
+
+        System.out.println(hasTargetSumOptimizedWithBinarySearch(new int[]{2, 3, 5, 0}, 6));
+        System.out.println(hasTargetSumOptimizedWithBinarySearch(new int[]{2, 3, 5, 1}, 6));
+        System.out.println(hasTargetSumOptimizedWithBinarySearch(new int[]{2, -3, 5, 9}, 6));  //4, 9, 1, -3 -> -3, 1, 4, 9;
+        System.out.println(hasTargetSumOptimizedWithBinarySearch(new int[]{0, 0, 6, 1}, 6));
     }
 
     public static boolean hasTargetSum(int[] arr, int target) {
@@ -38,7 +45,23 @@ public class TargetSum {
         return false;
     }
 
-    public static boolean hasTargetSumOptimized(int arr[], int target) {
+    public static boolean hasTargetSumOptimizedWithBinarySearch(int[] arr, int target) {
+        Arrays.sort(arr);
+
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0 && Arrays.binarySearch(arr, 0, i, target - arr[i]) > -1) {
+                return true;
+            }
+
+            if (i < arr.length - 1 && Arrays.binarySearch(arr, i + 1, arr.length - 1, target - arr[i]) > -1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean hasTargetSumOptimizedWithHashMap(int arr[], int target) {
         Map<Integer, Set<Integer>> numToIndices = new HashMap<>();
 
         for (int i = 0; i < arr.length; i++) {
